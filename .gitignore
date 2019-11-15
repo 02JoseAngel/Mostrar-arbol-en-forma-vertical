@@ -1,0 +1,86 @@
+#include <iostream>
+#include <windows.h>
+#include <cstdio>
+
+#include <conio.h>
+
+using namespace std;
+void gotoxy(int x, int y);
+struct nodo{
+	int dato;
+	nodo *izq;
+	nodo *der;
+};
+
+typedef nodo *arbolb;
+
+void insertar(arbolb &a,int d){
+	if(a==NULL){
+		a=new (struct nodo);
+		a->dato=d;
+		a->izq=NULL;
+		a->der=NULL;
+	}else{
+		if(a->dato>d){
+			insertar(a->izq,d);
+		}else{
+			insertar(a->der,d);
+		}
+	}
+}
+void mostrar(arbolb a,int x,int y){
+if(a!=NULL){
+	gotoxy(x,y);
+	cout<<a->dato<<endl;
+	x=x-3;
+	y=y+3;
+	mostrar(a->izq,x,y);
+	x=x+6;
+	mostrar(a->der,x,y);
+	y=y-3;
+}
+}
+void gotoxy(int x,int y){
+	HANDLE hcon;
+	hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD dwPos;
+	dwPos.X = x;
+	dwPos.Y= y;
+	SetConsoleCursorPosition(hcon,dwPos);
+}
+void menu(){
+	cout<<"                                 "<<endl;
+	cout<<"=        ARBOLES BINARIOS       ="<<endl;
+	cout<<"= 1. INSERTAR DATO AL ARBOL     ="<<endl;
+	cout<<"= 2. MOSTRAR ARBOL              ="<<endl;
+	cout<<"= 3. SALIR                      ="<<endl;
+	cout<<"                                 "<<endl;
+}
+int main(){
+
+	arbolb q=NULL;
+    int op;
+    int n;
+    do{
+    	menu();
+    	cout<<"Ingrese una Opcion"<<endl;
+    	    cin>>op;
+    switch(op){
+    case 1:
+
+    	cout<<"Ingrese El Dato"<<endl;
+    	cin>>n;
+    	insertar(q,n);
+    	cout<<""<<endl;
+        break;
+    case 2:
+    	int x,y;
+    	x=40;
+    	y=5;
+    	mostrar(q,x,y);
+        break;
+    }
+    }while(op!=3);
+    system("pause");
+
+}
